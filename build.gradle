@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'io.innocentdream'
+version 'dev-2023.0.2'
+
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.scijava.org/content/repositories/public/" }
+    maven { url = "https://jitpack.io" }
+}
+
+application {
+    mainClass = 'io.innocentdream.InnocentDream'
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'junit:junit:4.12'
+    implementation "com.github.JnCrMx:discord-game-sdk4j:${discord_sdk_version}"
+    implementation "com.google.code.gson:gson:${gson_version}"
+    implementation "org.joml:joml:${joml_version}"
+    implementation "org.apache.logging.log4j:log4j-1.2-api:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-api:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4j_version}"
+    implementation "org.lwjgl:lwjgl:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-assimp:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-bgfx:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-glfw:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-nanovg:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-nuklear:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-openal:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-opengl:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-par:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-stb:$lwjgl_version"
+    implementation "org.lwjgl:lwjgl-vulkan:$lwjgl_version"
+    implementation "com.github.Querz:NBT:$nbt_version"
+    implementation "net.lingala.zip4j:zip4j:$zip4j_version"
+}
+
+test {
+    useJUnitPlatform()
+}
