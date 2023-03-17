@@ -1,6 +1,10 @@
 package io.innocentdream.config;
 
 import io.innocentdream.InnocentDream;
+import io.innocentdream.action.Action;
+import io.innocentdream.action.Actions;
+import io.innocentdream.registry.Registries;
+import io.innocentdream.utils.Identifier;
 import io.innocentdream.utils.OS;
 import org.lwjgl.glfw.GLFW;
 
@@ -16,6 +20,7 @@ public class GamePropertyManager {
 
     static {
         PROPERTIES = new Properties();
+        Registries.register(Registries.EXIT_TASK, new Identifier("game_properties"), GamePropertyManager::stop);
     }
 
     public static void start() {
@@ -53,8 +58,7 @@ public class GamePropertyManager {
         PROPERTIES.put("lang", "en_us");
 
         //KEYS
-        PROPERTIES.put("key_fullscreen", String.valueOf(GLFW.GLFW_KEY_F5));
-        PROPERTIES.put("key_pause", String.valueOf(GLFW.GLFW_KEY_ESCAPE));
+        Actions.forEach((identifier, action) -> PROPERTIES.put(action.getPropertiesKey(), String.valueOf(action.getDefaultKey())));
     }
 
     public static void saveProperty(String property, Object value) {
@@ -69,7 +73,7 @@ public class GamePropertyManager {
         Object value = getSetting(property);
         if (value == null) {
             value = defaultValue;
-            PROPERTIES.put(property, defaultValue);
+            saveProperty(property, defaultValue);
         }
         return value;
     }
@@ -90,12 +94,8 @@ public class GamePropertyManager {
 
     //KEY CODES
 
-    public static int getFullscreenKey() {
-        return Integer.parseInt((String) getOrDefault("key_fullscreen", GLFW.GLFW_KEY_F5));
-    }
-
-    public static int getPauseKey() {
-        return Integer.parseInt((String) getOrDefault("key_pause", GLFW.GLFW_KEY_ESCAPE));
+    public static int getKeyCode(String key, int defaultKey) {
+        return Integer.parseInt((String) getOrDefault(key, defaultKey));
     }
 
 }

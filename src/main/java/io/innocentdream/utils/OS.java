@@ -20,6 +20,8 @@ import java.util.Locale;
 public class OS {
 
     private static final String BASE_VERSION_INFO_LINK = "https://innocent-dream.web.app/cdn/versions/%s/%s.json";
+    private static volatile boolean CONNECTED = true;
+
     public static final String OS = System.getProperty("os.name").toLowerCase(Locale.ROOT);
     public static final String ARCH = System.getProperty("os.arch");
     public static final String VERSION = System.getProperty("os.version").toLowerCase(Locale.ROOT);
@@ -101,14 +103,27 @@ public class OS {
         return OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
     }
 
+    /**
+     * Tries to connect to the ID servers
+     * @return <code>true</code> if the test connection is successful, <code>false</code> if not or if any exceptions are thrown
+     */
     public static boolean isConnected() {
         try {
             URLConnection connection = new URL("https://innocent-dream.web.app/").openConnection();
             connection.connect();
-            return true;
+            return CONNECTED = true;
         } catch (IOException e) {
-            return false;
+            return CONNECTED = false;
         }
+    }
+
+    /**
+     * Unlike <code>isConnected()</code>, this method doesn't try to connect to
+     * the internet, it just returns the last value returned by <code>isConnected()</code>
+     * @return the last value returned by <code>isConnected()</code>, <code>true</code> if that method hasn't been run
+     */
+    public static boolean getConnected() {
+        return CONNECTED;
     }
 
     public static String getOsString() {
