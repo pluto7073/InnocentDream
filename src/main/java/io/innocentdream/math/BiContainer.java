@@ -16,6 +16,12 @@ public class BiContainer<X,Y> extends Container<X> {
         return "(" + super.toString() + "," + y + ")";
     }
 
+    /**
+     * Tests if the two BiContainers are equal. Two BiContainers are equal if their
+     * two contained values are equal and are stored in the same order
+     * @param o The object to test against
+     * @return If they are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -28,5 +34,10 @@ public class BiContainer<X,Y> extends Container<X> {
             return true;
         }
         return this.x.equals(container.x) && this.y.equals(container.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * this.x.hashCode() + this.y.hashCode();
     }
 }
